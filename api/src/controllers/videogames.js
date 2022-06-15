@@ -8,7 +8,7 @@ const getInfo = async () => {
         const ApiInfo = await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}`)
         //mapeo la info y la ordeno
         const ApiInfoResults = ApiInfo.data.results.map(obj => { return objVideogame(obj)})
-        console.log(ApiInfoResults)
+        console.log('get info api - ApiInfoResults')
         return ApiInfoResults
 
     } catch (error) {
@@ -64,9 +64,26 @@ const allVideogames = async () => {
         return error
     }
 }
+
+const searchGames = async (name) => {
+    try {
+        const infoSearchApi = await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}&search=${name}`)
+        const infoSearchApiResults = infoSearchApi.data.results.map(obj => {return objVideogame(obj)});
+        let arr = [...infoSearchApiResults]
+        //filtro 15
+        arr = arr.slice(0, 15)
+        console.log('infoSearchApiResults')
+        return arr
+    } catch (error) {
+        console.log(error);
+        return error
+    }
+
+}
+
 module.exports={
     getInfo,
     allVideogames,
     videogamesDB,
-    
+    searchGames
 }
